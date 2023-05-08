@@ -34,7 +34,9 @@ router.post("/todos", async (req, response) => {
   await db(`INSERT INTO items (text, complete) VALUES ("${text}", 0);`);
   // On the mysql command I harcoded the incomplete status on the item
   // When the database is updated the program will return the new element added to the table
-  response.send(await db("SELECT * FROM items ORDER BY id DESC LIMIT 1;"));
+  const results = await db("SELECT * FROM items ORDER BY id DESC LIMIT 1;");
+  // Because of the formatting of the response I needed to make sure that I was passing an object and not the whole data array that included the new task
+  response.send(results.data[0]);
 });
 
 // The : on the url means that you can edit the parameters
