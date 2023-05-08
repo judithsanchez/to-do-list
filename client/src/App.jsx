@@ -41,26 +41,10 @@ export default function App() {
   const updateTask = async id => {
     const taskToUpdate = tasks.find(task => task.id === id);
 
-    // If there is no task to update and the function continues it crashes
-    if (!taskToUpdate) {
-      return;
-    }
-
-    // Creates an object the the new information of the task
+    // Creates an object the new information of the task
     const updatedTask = {
-      ...taskToUpdate,
       complete: taskToUpdate.complete ? 0 : 1
     };
-
-    // Updates the task list
-    const updatedTasks = tasks.map(task => {
-      if (task.id === id) {
-        return updatedTask;
-      } else {
-        return task;
-      }
-    });
-    setTasks(updatedTasks);
 
     // Changes the status of the task on the database
     const response = await fetch(`/api/todos/${id}`, {
@@ -70,6 +54,22 @@ export default function App() {
       },
       body: JSON.stringify(updatedTask)
     });
+
+    // Check if the request was successful
+    if (!response.ok) {
+      console.error(response.status);
+      return;
+    }
+
+    // Updates the task list
+    const updatedTasks = tasks.map(task => {
+      if (task.id === id) {
+        return { ...task, complete: updatedTask.complete };
+      } else {
+        return task;
+      }
+    });
+    setTasks(updatedTasks);
   };
 
   const deleteTask = async id => {

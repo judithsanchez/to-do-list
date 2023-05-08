@@ -41,14 +41,16 @@ router.post("/todos", async (req, response) => {
 
 // The : on the url means that you can edit the parameters
 // This method will edit a task
-router.put("/todos/:todo_id", async (req, response) => {
-  // The edited text will be in the body of the reques
-  let newText = req.body.text;
-  // The id has to go on the parameters od the request
-  let id = req.params.todo_id;
-  await db(`UPDATE items SET text = "${newText}" WHERE id = ${id}`);
-  // The response will be the item edited
-  response.send(await db(`SELECT * FROM items WHERE id = ${id};`));
+router.put("/todos/:id", async (req, response) => {
+  // Get the task id from the request parameters
+  const id = req.params.id;
+
+  // Get the new complete status from the request body
+  const complete = req.body.complete;
+
+  // Update the task with the new complete status
+  await db(`UPDATE items SET complete=${complete} WHERE id=${id};`);
+  response.status(200).send("Task updated");
 });
 
 router.delete("/todos/:todo_id", async (req, response) => {
