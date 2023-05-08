@@ -40,16 +40,30 @@ export default function App() {
     }
   };
 
-  const updateTask = id => {
-    // update task from database
-    // upon success, update tasks
-    // upon failure, show error message
+  const updateTask = async id => {
+    const taskToUpdate = tasks.find(task => task.id === id);
+    const updatedTask = {
+      ...taskToUpdate,
+      // This is changing the object property
+      complete: taskToUpdate.complete ? 0 : 1
+    };
+    const response = await fetch(`/api/todos/${id}`, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      // This is making sure that the change (of the number) is on the right format
+      body: JSON.stringify(updatedTask)
+    });
+    const updatedTasks = tasks.map(task => {
+      if (task.id === id) {
+        return updatedTask;
+      }
+    });
+    setTasks(updatedTasks);
   };
 
   const deleteTask = async id => {
-    // delete task from database
-    // upon success, update tasks
-    // upon failure, show error message
     const response = await fetch(`/api/todos/${id}`, {
       method: "DELETE",
       headers: {
@@ -72,7 +86,10 @@ export default function App() {
       </form>
       <ul>
         {tasks.map(task => (
-          <li key={task.id}>
+          <li
+            key={task.id}
+            className={task.complete ? "completed" : "incomplete"}
+          >
             {task.text}
             <button onClick={() => updateTask(task.id)}>Update</button>
             <button onClick={() => deleteTask(task.id)}>Delete</button>
