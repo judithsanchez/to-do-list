@@ -32,9 +32,7 @@ export default function App() {
         body: JSON.stringify({ text: text })
       });
       const data = await response.json();
-      console.log([...tasks, data]);
       setTasks([...tasks, data]);
-      console.log(data);
     } catch (error) {
       console.error(error);
     }
@@ -42,25 +40,36 @@ export default function App() {
 
   const updateTask = async id => {
     const taskToUpdate = tasks.find(task => task.id === id);
+
+    // If there is no task to update and the function continues it crashes
+    if (!taskToUpdate) {
+      return;
+    }
+
+    // Creates an object the the new information of the task
     const updatedTask = {
       ...taskToUpdate,
-      // This is changing the object property
       complete: taskToUpdate.complete ? 0 : 1
     };
+
+    // Updates the task list
+    const updatedTasks = tasks.map(task => {
+      if (task.id === id) {
+        return updatedTask;
+      } else {
+        return task;
+      }
+    });
+    setTasks(updatedTasks);
+
+    // Changes the status of the task on the database
     const response = await fetch(`/api/todos/${id}`, {
       method: "PUT",
       headers: {
         "Content-Type": "application/json"
       },
-      // This is making sure that the change (of the number) is on the right format
       body: JSON.stringify(updatedTask)
     });
-    const updatedTasks = tasks.map(task => {
-      if (task.id === id) {
-        return updatedTask;
-      }
-    });
-    setTasks(updatedTasks);
   };
 
   const deleteTask = async id => {
@@ -91,8 +100,12 @@ export default function App() {
             className={task.complete ? "completed" : "incomplete"}
           >
             {task.text}
-            <button onClick={() => updateTask(task.id)}>Update</button>
-            <button onClick={() => deleteTask(task.id)}>Delete</button>
+            <button onClick={() => updateTask(task.id)}>
+              <i className="fas fa-check"></i>
+            </button>
+            <button onClick={() => deleteTask(task.id)}>
+              <i className="fas fa-trash"></i>
+            </button>
           </li>
         ))}
       </ul>
