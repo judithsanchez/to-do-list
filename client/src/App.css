@@ -2,7 +2,6 @@
   align-items: center;
   display: flex;
   flex-flow: column nowrap;
-  height: 70vh;
   margin: auto;
   width: 350px;
 }
