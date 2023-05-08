@@ -84,29 +84,37 @@ export default function App() {
   };
 
   return (
-    <div>
+    <div className="todo-list">
       <h1>To Do List</h1>
-      <form onSubmit={e => handleSubmit(e)}>
-        <label>
-          New Task:
-          <input onChange={e => handleChange(e)} value={text} />
-        </label>
-        <button type="submit">Submit</button>
+
+      <form className="add-tasks" onSubmit={e => handleSubmit(e)}>
+        <label>New Task</label>
+
+        <input onChange={e => handleChange(e)} value={text} />
+
+        <button type="submit">
+          <i class="fas fa-plus-circle"></i>
+        </button>
       </form>
-      <ul>
+
+      <ul className="tasks">
         {tasks.map(task => (
-          <li
-            key={task.id}
-            className={task.complete ? "completed" : "incomplete"}
-          >
-            {task.text}
-            <button onClick={() => updateTask(task.id)}>
+          <div className="task">
+            <li
+              key={task.id}
+              className={task.complete ? "completed" : "incomplete"}
+            >
+              {task.text}
+            </li>
+
+            <div onClick={() => updateTask(task.id)}>
               <i className="fas fa-check"></i>
-            </button>
-            <button onClick={() => deleteTask(task.id)}>
+            </div>
+
+            <div onClick={() => deleteTask(task.id)}>
               <i className="fas fa-trash"></i>
-            </button>
-          </li>
+            </div>
+          </div>
         ))}
       </ul>
     </div>

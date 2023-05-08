@@ -1,3 +1,19 @@
+.todo-list {
+  align-items: center;
+  display: flex;
+  flex-flow: column nowrap;
+  justify-content: center;
+}
+
+.add-tasks {
+  display: flex;
+  flex-flow: column nowrap;
+}
+
+.task {
+  list-style: none;
+}
+
 .completed {
   text-decoration: line-through;
   color: gray;
