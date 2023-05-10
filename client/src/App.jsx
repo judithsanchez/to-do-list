@@ -88,8 +88,6 @@ export default function App() {
       <h1>To Do List</h1>
 
       <form className="add-tasks" onSubmit={e => handleSubmit(e)}>
-        {/* <label>New Task</label> */}
-
         <div>
           <input onChange={e => handleChange(e)} value={text} />
 
