@@ -32,7 +32,7 @@ export default function App() {
         body: JSON.stringify({ text: text })
       });
       const data = await response.json();
-      setTasks([...tasks, data]);
+      setTasks(prevTasks => [data, ...prevTasks]);
     } catch (error) {
       console.error(error);
     }

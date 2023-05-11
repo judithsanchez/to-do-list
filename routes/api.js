@@ -15,7 +15,7 @@ router.get("/todos", (req, res) => {
   // req is not used and can be replaces by _
   // It is using the db that was imported on line 6
   // It gets all the elements from the items table in ascending order
-  db("SELECT * FROM items ORDER BY id ASC;")
+  db("SELECT * FROM items ORDER BY complete ASC, id DESC;")
     // When it gets the results
     .then(results => {
       // It sends the response in the form of an object
@@ -35,6 +35,7 @@ router.post("/todos", async (req, response) => {
   // On the mysql command I harcoded the incomplete status on the item
   // When the database is updated the program will return the new element added to the table
   const results = await db("SELECT * FROM items ORDER BY id DESC LIMIT 1;");
+
   // Because of the formatting of the response I needed to make sure that I was passing an object and not the whole data array that included the new task
   response.send(results.data[0]);
 });
