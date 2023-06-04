@@ -11,27 +11,30 @@ In the first version, the focus was on developing the basic functionalities of t
 - **🌱 Next version:** Add animations when the card is clicked.
 - **👾 Bugs:** The upcoming version will introduce the ability to assign tasks to specific dates, enhancing the app's functionality and allowing users to better organize and schedule their tasks.
 
-### 🗂️ File structure:
+### 📦 Dependencies
 
-    📗 to-do-list
-    ├── 📂 bin
-    ├── 📂 client
-    	│   ├── 📂 src
-    	│   │   ├── 🎨 App.css
-    	│   │   ├── 🎨 index.css
-    	│   │   ├── 💙 App.jsx
-    	│   │   └── 💙 main.jsx
-    ├── 📂 model
-    	│   └── 📜 database.js
-    	│   └── 📜 helper.js
-    ├── 📂 public
-    	│   └── 📄 index.html
-    ├── 📂 routes
-    	│   └── 📜 api.js
-    ├── 📜 app.js
-    └── 📖 README.md
+1. Run `npm install` in project directory. This will install server-related dependencies such as `express`.
 
-### 🗄️ Database:
+2. `cd client` and run `npm install`. This will install client dependencies (React).
+
+### 💾 Database Setup
+
+To set up the MySQL database for the project, follow these steps:
+
+1. Access the MySQL interface in your terminal by running the appropriate command.
+2. Create a new database called "adjectives" by executing the following command: `create database todos`.
+3. Create an `.env` file in the project folder and add the MySQL authentication information for the MySQL user. For example:
+
+   ```
+   DB_HOST=localhost
+   DB_USER=root
+   DB_NAME=todos
+   DB_PASS=YOURPASSWORD
+
+   ```
+
+4. Run `npm run migrate` in a new terminal window in the project folder. This command will create a table called 'adjectives' in the database.
+5. The database has already been populated with the information of adjectives.
 
 Tables in todos:
 
@@ -60,3 +63,28 @@ Data in the items table:
 | 62  | call cedrick      | 0        |
 | 63  | improve app       | 0        |
 | 66  | use panda planner | 0        |
+
+### 🔧 Development
+
+1. Run `npm start` in project directory to start the Express server on port 4000
+2. In another terminal, do `cd client` and run `npm run dev` to start the client in development mode with hot reloading in port 5173.
+
+### 🗂️ File structure:
+
+    📗 to-do-list
+    ├── 📂 bin
+    ├── 📂 client
+    │   ├── 📂 src
+    │   │   ├── 🎨 App.css
+    │   │   ├── 🎨 index.css
+    │   │   ├── 💙 App.jsx
+    │   │   └── 💙 main.jsx
+    ├── 📂 model
+    │   └── 📜 database.js
+    │   └── 📜 helper.js
+    ├── 📂 public
+    │   └── 📄 index.html
+    ├── 📂 routes
+    │   └── 📜 api.js
+    ├── 📜 app.js
+    └── 📖 README.md
